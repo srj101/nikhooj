@@ -1,0 +1,37 @@
+.userProfileDP img {width: 25px;height: 25px;border-radius: 50%;}
+
+.grab__header {display: flex;justify-content: space-between;align-items: center;border-bottom: 1px solid #eee;margin-bottom: 10px;padding-bottom: 5px;}
+
+.userInfo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+}
+.grabMenu {
+    cursor:pointer
+}
+.postedBy h4 {margin: 0;padding: 0;font-size: 11px;margin-left: 10px;}
+.Grab {
+    padding: 15px 10px;
+    box-shadow: 1px 2px 2px #cccccc;
+    margin-top: 15px;
+}
+.Grab:last-child {
+    margin-bottom: 15px;
+}
+
+
+.Grab .slick-prev, .slick-next {
+    display:none !important;
+}
+
+
+.grab_navs__container {display: flex;justify-content: space-between;}
+
+.nav_icons {display: flex;justify-content: space-between;}
+
+.nav_icons > div {padding: 0 4px;cursor: pointer;}
+
+.claimGrab {cursor: pointer;}
+.Grab {border: 1px solid #eee;}
