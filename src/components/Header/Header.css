@@ -30,7 +30,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 25px 30px;
+    padding: 12px 30px;
 }
 .site_header_navigation {display: flex;align-items: center;}
 

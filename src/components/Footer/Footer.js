@@ -2,7 +2,8 @@ import React from 'react'
 import './Footer.css'
 import { Link } from 'react-router-dom';
 import { Container, Row,Col } from 'react-bootstrap';
-import { FaHome, FaFacebookMessenger, FaRegPlusSquare, FaRegUser, FaSearch } from 'react-icons/fa';
+import { FaFacebookMessenger, FaHome, FaRegPlusSquare, FaRegUser, FaSearch } from 'react-icons/fa';
+import {AiOutlineNotification} from 'react-icons/ai'
 const Footer = () => {
     return (
         <div className='footer__area'>
@@ -22,9 +23,13 @@ const Footer = () => {
                                 <FaRegPlusSquare />
                             </Link>
                             <Link to='/' className="nav_icon">
-                                <FaFacebookMessenger />
+                                <span className='notificationCount'>0</span>
+                                <AiOutlineNotification />
                             </Link>
                             <Link to='/' className="nav_icon">
+                                <FaFacebookMessenger />
+                            </Link>
+                            <Link to='/profile' className="nav_icon">
                                 <FaRegUser />
                             </Link>
                         </div>

@@ -1,24 +1,35 @@
-import React from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Input } from 'antd';
 import { FaHome, FaRegCompass, FaRegUser } from 'react-icons/fa';
+import logo from './logo.png'
 import './Header.css'
+import MetaData from '../../Layout/MetaData';
 const { Search } = Input;
 
 const Header = () => {
     const location = useLocation();
+    const navigate = useNavigate();
     const isSearchPage = location.pathname.includes('search');
+
+  useEffect(() => {
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    })
+  },[isSearchPage])
     
     return (
         <div className='header_Area'>
+            {isSearchPage? <MetaData title="NIKHOOJ | Search" />: <MetaData title="NIKHOOJ | Home" />}
             <div className='site_header'>
                 {/*-- ---------Logo--------- -- */}
                 <div className="site_logo">
-                    <img src="https://i.ibb.co/1rCSzcW/cooltext410097514975534.png" alt="" />
+                    <img src={logo} alt="Nikhooj logo" />
                 </div>
                 {/*-----------Search-----------*/}
                 <div className="site_search" style={{display: isSearchPage? "block": "none"}}>
-                    <Search placeholder="Search Here" allowClear />
+                    <Search placeholder="Search Here" allowClear onSearch={(value) => navigate(`/search/${value}`)}/>
                 </div>
                 {/*-----------Home,Messege,CreateNewPost,Notification,Profile-----------*/}
                 <div className="site_header_navigation"  style={{display: isSearchPage? "none": "flex"}}>
@@ -29,7 +40,7 @@ const Header = () => {
                         <Link to='/'><FaRegCompass /></Link>
                     </div>
                     <div className="nav_icon">
-                        <Link to='/'><FaRegUser /></Link>
+                        <Link to='/profile'><FaRegUser /></Link>
                     </div>
                 </div>
             </div>

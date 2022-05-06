@@ -28,7 +28,7 @@
 
 
 
-.footer__area {position: sticky;bottom: 0;left: 0;width: 100vw;background-color: #fafafa;}
+.footer__area {position: sticky;bottom: 0;left: 0;width: 100vw;background-color: #fafafa;z-index: 5;}
 
   .footer_navs {display: flex;justify-content:center;border-top: 1px solid #eee;align-items: center;}
 
@@ -37,3 +37,6 @@
       border-right: 0;
   }
   .footer_navs a.nav_icon:hover {color: red;}
+  a.nav_icon {position: relative;}
+
+  a.nav_icon .notificationCount {position: absolute;top: 15%;right: 25%;background: red;border-radius: 50%;color: #fff;padding: 2px;font-size: 10px;width: 15px;height: 15px;text-align: center;line-height: 11px;}

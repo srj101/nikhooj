@@ -1,12 +1,7 @@
 
-.grabImage > img {
-    aspect-ratio: 4/3;
-    margin: 0 auto;
-    width: 100%;
-}
-.grabImage {
-    width: 100%;
+
+.grabContainer {
+    width: 100vw;
+    overflow: hidden;
 }
 
-
-.grab_react__container {background: #000;color: #fff;}

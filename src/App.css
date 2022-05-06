@@ -11,3 +11,10 @@ a {
   padding-right: 0;
   padding-left: 0;
 }
+.slick-prev.slick-arrow, .slick-next.slick-arrow {
+  display:none !important;
+}
+.App {
+  width: 100%;
+  overflow: hidden;
+}

@@ -1,19 +1,87 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Grab from './Grab/Grab'
-import GrabsDummy from './GrabsDummy'
+import Pagination from "react-js-pagination";
+// import InfiniteScroll from 'react-infinite-scroller';
 import './grabContainer.css'
-import { Container, Row } from 'react-bootstrap';
+import { Container, Row, Col} from 'react-bootstrap';
+import {useSelector , useDispatch} from 'react-redux'
+import { getAllGrabs } from '../../actions/grabActions';
+import { useAlert } from "react-alert";
+import { useParams } from 'react-router-dom';
 
 
 const Grabcontainer = () => {
+  const {keyword} = useParams();
+  const alert = useAlert();
+  const dispatch = useDispatch();
+  const {grabs,loading,error,grabsCount,resultPerPage,filteredGrabsCount,loaded} = useSelector((state) => state.grabs)
+  
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const [count,setCount] = useState(0);
+  
+  const setCurrentPageNo = (e) => {
+    setCurrentPage(e)
+  }
+
+  useEffect(()=> {
+    if (error) {
+      alert.error(error);
+    }
+    dispatch(getAllGrabs(keyword,currentPage));
+    filteredGrabsCount && setCount(filteredGrabsCount)
+  },[error,alert,keyword,currentPage,dispatch])
+
+  const loadMoreGrabs = () => {
+    setCurrentPage(currentPage+1)
+    console.log(count)
+    console.log(loaded)
+    console.log(currentPage)
+  }
+
   return (
     <div className='grabContainer'>
       <Container>
         <Row>
-            {GrabsDummy.grabs.map(grab => <Grab grab={grab}/>)}
-        </Row>
-      </Container>
-    </div>
+          {/* <Col lg={3} md={2} sm={1} xs={1} style={{textAlign:"center"}}>Ads left</Col> */}
+          
+            <Col lg={{span:6,offset:3}} md={{span:8,offset:2}} sm={{span:10,offset:1}} xs={{span:10,offset:1}}>
+              
+                {/* <InfiniteScroll
+                pageStart={0}
+                loadMore={loadMoreGrabs} 
+                hasMore={loaded < count}
+                loader={<h4>Loading...</h4>}
+              >
+                {grabs.map((grab,i) => <Grab key={i} grab={grab}/>)}
+              </InfiniteScroll> */}
+              {grabs.map((grab,i) => <Grab key={i} grab={grab}/>)}
+
+
+              {resultPerPage < count ? (<div className="paginationBox">
+                <Pagination
+                  activePage={currentPage}
+                  itemsCountPerPage={resultPerPage}
+                  totalItemsCount={grabsCount}
+                  onChange={setCurrentPageNo}
+                  nextPageText="Next"
+                  prevPageText="Prev"
+                  firstPageText="1st"
+                  lastPageText="Last"
+                  itemClass="page-item"
+                  linkClass="page-link"
+                  activeClass="pageItemActive"
+                  activeLinkClass="pageLinkActive"
+                />
+              </div>): <></>}
+              
+        
+            </Col>
+          
+          {/* <Col lg={3} md={2} sm={1} xs={1} style={{textAlign:"center"}}> Ads right</Col> */}
+      </Row>
+    </Container>
+  </div>
   )
 }
 
