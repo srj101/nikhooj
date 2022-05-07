@@ -8,6 +8,7 @@ import {useSelector , useDispatch} from 'react-redux'
 import { getAllGrabs } from '../../actions/grabActions';
 import { useAlert } from "react-alert";
 import { useParams } from 'react-router-dom';
+import Loading from '../Loading/Loading';
 
 
 const Grabcontainer = () => {
@@ -18,7 +19,7 @@ const Grabcontainer = () => {
   
   const [currentPage, setCurrentPage] = useState(1);
 
-  const [count,setCount] = useState(0);
+  let count = filteredGrabsCount
   
   const setCurrentPageNo = (e) => {
     setCurrentPage(e)
@@ -29,14 +30,9 @@ const Grabcontainer = () => {
       alert.error(error);
     }
     dispatch(getAllGrabs(keyword,currentPage));
-    filteredGrabsCount && setCount(filteredGrabsCount)
   },[error,alert,keyword,currentPage,dispatch])
 
   const loadMoreGrabs = () => {
-    setCurrentPage(currentPage+1)
-    console.log(count)
-    console.log(loaded)
-    console.log(currentPage)
   }
 
   return (
@@ -55,7 +51,9 @@ const Grabcontainer = () => {
               >
                 {grabs.map((grab,i) => <Grab key={i} grab={grab}/>)}
               </InfiniteScroll> */}
-              {grabs.map((grab,i) => <Grab key={i} grab={grab}/>)}
+              {loading ? (<Loading/>): (
+                grabs.map((grab,i) => <Grab key={i} grab={grab}/>)
+              )}
 
 
               {resultPerPage < count ? (<div className="paginationBox">

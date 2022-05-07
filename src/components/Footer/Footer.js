@@ -16,7 +16,7 @@ const Footer = () => {
                                 <FaHome />
 
                             </Link>
-                            <Link to='/search' className="nav_icon">
+                            <Link to={`/search/${`a`}`} className="nav_icon">
                                 <FaSearch />
                             </Link>
                             <Link to='/' className="nav_icon">
@@ -28,9 +28,6 @@ const Footer = () => {
                             </Link>
                             <Link to='/' className="nav_icon">
                                 <FaFacebookMessenger />
-                            </Link>
-                            <Link to='/profile' className="nav_icon">
-                                <FaRegUser />
                             </Link>
                         </div>
                     </Col>

@@ -4,7 +4,10 @@ import {
     ALL_GRAB_FAIL,
     SINGLE_GRAB_REQUEST,
     SINGLE_GRAB_SUCCESS,
-    SINGLE_GRAB_FAIL
+    SINGLE_GRAB_FAIL,
+    LIKE_REQUEST,
+    LIKE_SUCCESS,
+    LIKE_FAIL
 } from "../constants/grabConstants"
 
 export const grabReducer = (
@@ -49,6 +52,7 @@ export const grabReducer = (
   export const singleGrabReducer = (state = { grab: {} }, action) => {
     switch (action.type) {
       case SINGLE_GRAB_REQUEST:
+        case LIKE_REQUEST:
         return {
           loading: true,
           ...state,
@@ -58,7 +62,14 @@ export const grabReducer = (
           loading: false,
           grab: action.payload,
         };
+      
+      case LIKE_SUCCESS:
+        return {
+          loading:false,
+          hearted: action.payload.hearted,
+        }
       case SINGLE_GRAB_FAIL:
+        case LIKE_FAIL:
         return {
           loading: false,
           error: action.payload,

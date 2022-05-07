@@ -6,6 +6,7 @@ import { getSingleGrab } from '../../../actions/grabActions';
 import {Container, Row, Col} from 'react-bootstrap';
 import {timeSince} from "./countPostTime"
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
+import Loading from '../../Loading/Loading';
 
 const center = {
     lat: 23.8803099,
@@ -42,16 +43,20 @@ const SingleGrabPage = () => {
 
     
     const {name,_id,long,lat,images,questions,address,description,category,updatedAt} = grab;
-    useEffect(()=> {
-        
-    },[new Date().getMinutes()])
+    const [time, setTime] = useState(Date.now());
+    useEffect(() => {
+        const interval = setInterval(() => setTime(Date.now()), 1000);
+        return () => {
+          clearInterval(interval);
+        };
+      }, []);
     const containerStyle = {
         width: '100%',
         height: '400px'
       };
     return (
         <>
-            {loading ? ("loading..."): (
+            {loading ? (<Loading/>): (
                 <div className='SingleGrabPage_container'>
                     <div className='images'>
                     </div>
@@ -61,23 +66,9 @@ const SingleGrabPage = () => {
                         </div>
                         <div className='map'>
                             {/** wah keya seen hae */}
-                        <a href={`https://www.google.com/maps/@${lat},${long},16z`}> {
-                            isLoaded ? (
-                                <GoogleMap
-                                    mapContainerStyle={containerStyle}
-                                    center={{
-                                        lat,
-                                        lng:long
-                                    }}
-                                    zoom={10}
-                                    onLoad={onLoad}
-                                    onUnmount={onUnmount}
-                                >
-                                    { /* Child components, such as markers, info windows, etc. */ }
-                                    <></>
-                                </GoogleMap>
-                            ) : <></>
-                        }</a>
+                        
+                                
+                             
                         </div>
                         <div className="postedTime">
                            

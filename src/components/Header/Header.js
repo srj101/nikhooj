@@ -40,7 +40,7 @@ const Header = () => {
                         <Link to='/'><FaRegCompass /></Link>
                     </div>
                     <div className="nav_icon">
-                        <Link to='/profile'><FaRegUser /></Link>
+                        <Link to='/login'><FaRegUser /></Link>
                     </div>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import "./Grab.css"
 import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -9,8 +9,14 @@ import { FaHandSparkles, FaHandMiddleFinger } from 'react-icons/fa';
 import NumberFormat from 'react-number-format';
 import { ShareSocial } from 'react-share-social'
 import { timeSince } from '../SingleGrabPage/countPostTime';
+import { useDispatch,useSelector } from 'react-redux';
+import { likeAGrab } from '../../../actions/grabActions';
+import { useAlert } from 'react-alert';
 
 const Grab = ({ grab }) => {
+    const dispatch = useDispatch();
+    const alert = useAlert();
+    const {hearted,loading,error} = useSelector((state) => state.singleGrab)
     const { _id, images, name, category, subCategory, description, questions, address, long, lat, hearts, noOfReports,claims, tags, trash,postedBy, updatedAt } = grab;
     const settings = {
         dots: false,
@@ -20,19 +26,32 @@ const Grab = ({ grab }) => {
         slidesToShow: 1,
         slidesToScroll: 1,
     };
-
+    const [time, setTime] = useState(Date.now());
+    useEffect(() => {
+        const interval = setInterval(() => setTime(Date.now()), 1000);
+        return () => {
+          clearInterval(interval);
+        };
+      }, []);
+      
 
     const handleClaimGrab = () => {
         console.log("claim by omuk user")
     }
     const handleHeartClick = () =>
     {
-        console.log('heart clicked');
+       // dispatch(likeAGrab(_id));
     }
 
     const handleReportClick = () => {
         console.log("reported")
     }
+
+    useEffect(()=> {
+        if(error){
+            alert.error(error)
+        }
+    },[dispatch,alert,hearted])
     
     return (
         <div className='Grab'>
