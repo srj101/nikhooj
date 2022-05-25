@@ -1,42 +1,66 @@
-
-
 /* For extremely small screen devices (595px and below) */
 @media only screen and (max-width: 595px) {
-    .footer_navs a.nav_icon {padding: 10px 15px;}
-   
+  .footer_navs a.nav_icon {
+    padding: 10px 15px;
+  }
 }
 
 /* Small screen devices Tab (600px and above) */
 @media only screen and (min-width: 600px) {
-
-    
 }
 /* Medium screen devices Laptop (768px and above) */
 @media only screen and (min-width: 768px) {
-
 }
 
 /* Big screen devices (889px and above) */
 @media only screen and (min-width: 889px) {
-  
 }
 
 /* Extra big screen devices (1200px and above) */
 @media only screen and (min-width: 1200px) {
-
 }
 
+.footer__area {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  background-color: #fafafa;
+  z-index: 5;
+}
 
+.footer_navs {
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid #eee;
+  align-items: center;
+}
 
-.footer__area {position: sticky;bottom: 0;left: 0;width: 100vw;background-color: #fafafa;z-index: 5;}
+.footer_navs a.nav_icon {
+  padding: 20px 30px;
+  border-right: 1px solid #eee;
+}
+.footer_navs a.nav_icon:last-child {
+  border-right: 0;
+}
+.footer_navs a.nav_icon:hover {
+  color: red;
+}
+a.nav_icon {
+  position: relative;
+}
 
-  .footer_navs {display: flex;justify-content:center;border-top: 1px solid #eee;align-items: center;}
-
-  .footer_navs a.nav_icon {padding: 20px 30px;border-right: 1px solid #eee;}
-  .footer_navs a.nav_icon:last-child {
-      border-right: 0;
-  }
-  .footer_navs a.nav_icon:hover {color: red;}
-  a.nav_icon {position: relative;}
-
-  a.nav_icon .notificationCount {position: absolute;top: 15%;right: 25%;background: red;border-radius: 50%;color: #fff;padding: 2px;font-size: 10px;width: 15px;height: 15px;text-align: center;line-height: 11px;}
+a.nav_icon .notificationCount {
+  position: absolute;
+  top: 15%;
+  right: 25%;
+  background: red;
+  border-radius: 50%;
+  color: #fff;
+  padding: 2px;
+  font-size: 10px;
+  width: 15px;
+  height: 15px;
+  text-align: center;
+  line-height: 11px;
+}

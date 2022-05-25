@@ -1,54 +1,50 @@
-
 /* For extremely small screen devices (595px and below) */
 @media only screen and (max-width: 595px) {
-
-   
 }
 
 /* Small screen devices Tab (600px and above) */
 @media only screen and (min-width: 600px) {
-
-    
 }
 /* Medium screen devices Laptop (768px and above) */
 @media only screen and (min-width: 768px) {
-
 }
 
 /* Big screen devices (889px and above) */
 @media only screen and (min-width: 889px) {
-  
 }
 
 /* Extra big screen devices (1200px and above) */
 @media only screen and (min-width: 1200px) {
-
 }
-
 
 .site_header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 30px;
 }
-.site_header_navigation {display: flex;align-items: center;}
+.site_header_navigation {
+  display: flex;
+  align-items: center;
+}
 
 .site_header_navigation .nav_icon {
-    padding: 4px 10px;
+  padding: 4px 10px;
 }
-.nav_icon a:hover {color: red;}
+.nav_icon a:hover {
+  color: red;
+}
 
-.site_search {flex-basis: 80%;}
+.site_search {
+  flex-basis: 80%;
+}
 
 .header_Area {
-    border-bottom: 1px solid #eee;
-    background-color: #fafafa;
-    width: 100vw;
+  border-bottom: 1px solid #eee;
+  background-color: #fafafa;
+  width: 100vw;
 }
 .site_logo img {
-    width: 65px;
-    height: 20px;
+  width: 65px;
+  height: 20px;
 }
-
-

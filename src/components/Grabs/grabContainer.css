@@ -1,7 +1,26 @@
-
-
 .grabContainer {
-    width: 100vw;
-    overflow: hidden;
+  width: 100vw;
+  overflow: hidden;
+}
+.paginationBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 15px 0;
+  margin-top: 25px;
 }
 
+li.page-item.disabled > a {
+  color: #fff !important;
+  background: gray !important;
+}
+
+li.page-item.pageItemActive > a {
+  background: #fff !important;
+  color: #000 !important;
+}
+
+ul.pagination > .page-item > a {
+  color: #fff;
+  background: black;
+}

@@ -1,0 +1,30 @@
+.postGrabs {
+  margin: 30px 0;
+}
+.nextPreviosButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 50px;
+}
+.nextPreviosButton > button {
+  color: #000;
+  background: #fff;
+  padding: 5px 15px;
+  margin: 0 10px;
+}
+form.postAgrabForm > div > ol > li::before {
+  color: #fff;
+  background: #000;
+}
+
+form.postAgrabForm > div > ol > li::after {
+  color: #000;
+}
+form#postGrab > div > ol {
+  display: none !important;
+}
+form#postGrab {
+  margin: 30px 0;
+  margin-bottom: 40px;
+}

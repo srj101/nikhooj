@@ -1,31 +1,39 @@
-import { applyMiddleware,combineReducers } from "redux";
-import { configureStore } from '@reduxjs/toolkit'
+import { applyMiddleware, combineReducers } from "redux";
+import { configureStore } from "@reduxjs/toolkit";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
-import { grabReducer, singleGrabReducer } from "./reducers/grabReducer";
 import {
-    forgotPasswordReducer,
-    profileReducer,
-    userReducer,
-  } from "./reducers/userReducer";
+  grabReducer,
+  likeGrabReducer,
+  singleGrabReducer,
+  postGrabReducer,
+} from "./reducers/grabReducer";
+import {
+  forgotPasswordReducer,
+  profileReducer,
+  userReducer,
+} from "./reducers/userReducer";
 
 const reducer = combineReducers({
-    grabs: grabReducer,
-    singleGrab: singleGrabReducer,
-    user: userReducer,
-    profile: profileReducer,
-    forgotPassword: forgotPasswordReducer,
+  grabs: grabReducer,
+  singleGrab: singleGrabReducer,
+  user: userReducer,
+  profile: profileReducer,
+  forgotPassword: forgotPasswordReducer,
+  hearts: likeGrabReducer,
+  postedGrab: postGrabReducer,
 });
 
-let initialState = {}
+let initialState = {};
 
 const middleware = [thunk];
 
-const store = configureStore({
+const store = configureStore(
+  {
     reducer,
-    preloadedState: initialState
-},composeWithDevTools(
-    applyMiddleware(...middleware),
-  ));
+    preloadedState: initialState,
+  },
+  composeWithDevTools(applyMiddleware(...middleware))
+);
 
-  export default store;
+export default store;

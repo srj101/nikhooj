@@ -1,0 +1,60 @@
+.info_container__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #eee;
+  padding: 0 10px;
+  margin-bottom: 15px;
+}
+
+.info_container__header .title {
+  flex-basis: 70%;
+}
+
+.info_container__header_controls {
+  display: flex;
+  align-items: center;
+  flex-basis: 30%;
+}
+
+.makeStyles-iconContainer-3 {
+  display: flex;
+}
+
+.makeStyles-iconContainer-11 button svg {
+  width: 15px;
+}
+
+.info_container__header_controls .grabHearts {
+  padding-right: 20px;
+}
+.info_container__header_controls .grabShare {
+  flex-basis: 20%;
+}
+
+.info_container__header_controls .claimGrab {
+  padding-right: 25px;
+  border-right: 1px solid #eee;
+  border-left: 1px solid #eee;
+  padding-left: 25px;
+  margin-right: 10px;
+}
+.grabShare > div {
+  padding: 0 !important;
+}
+
+.grabShare > div > div {
+  padding: 0 !important;
+}
+
+.grabShare > div > div:nth-child(2) {
+  display: none !important;
+}
+
+.grabShare > div > div:first-child {
+  display: flex !important;
+}
+
+.grabShare > div > div:first-child > button > svg {
+  width: 20px !important;
+}

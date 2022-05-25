@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react'
-import {Container, Row , Col} from "react-bootstrap"
-import { Tabs, Form, Input, Button, Checkbox } from 'antd';
-import { AppleOutlined, AndroidOutlined } from '@ant-design/icons';
-import Loading from '../../../components/Loading/Loading'
-import {useLocation,useNavigate} from "react-router-dom"
+import React, { useEffect } from "react";
+import { Container, Row, Col } from "react-bootstrap";
+import { Tabs, Form, Input, Button, Checkbox } from "antd";
+import { AppleOutlined, AndroidOutlined } from "@ant-design/icons";
+import Loading from "../../../components/Loading/Loading";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { login, register } from "../../../actions/userActions"
+import { login, register } from "../../../actions/userActions";
 import { useAlert } from "react-alert";
 
 const { TabPane } = Tabs;
@@ -20,35 +20,39 @@ const Login = () => {
   );
 
   const onLoginFinish = (values) => {
-   const {email,password} = values;
-   dispatch(login(email, password));
+    const { email, password } = values;
+    dispatch(login(email, password));
   };
 
   const onSignUpFinish = (values) => {
-    const {email,password,name} = values;
-    dispatch(register({email,password,name}));
+    const { email, password, name } = values;
+    dispatch(register({ email, password, name }));
   };
 
   const redirect = location.search ? location.search.split("=")[1] : "/profile";
-
 
   useEffect(() => {
     if (error) {
       alert.error(error);
     }
-    
+
     if (isAuthenticated) {
       navigate(redirect);
     }
   }, [dispatch, error, alert, navigate, isAuthenticated, redirect]);
 
   return (
-    <div className='loginSignUpArea'>
+    <div className="loginSignUpArea">
       <Container>
         <Row>
-          <Col lg={{span:6,offset:3}} md={{span:8,offset:2}} sm={{span:10,offset:1}} xs={{span:10,offset:1}}>
+          <Col
+            lg={{ span: 6, offset: 3 }}
+            md={{ span: 8, offset: 2 }}
+            sm={{ span: 10, offset: 1 }}
+            xs={{ span: 10, offset: 1 }}
+          >
             <div className="loginSignUpSection">
-              <Tabs defaultActiveKey="2">
+              <Tabs defaultActiveKey="1">
                 <TabPane
                   tab={
                     <span>
@@ -59,57 +63,57 @@ const Login = () => {
                   key="1"
                 >
                   <Form
-                        name="basic"
-                        labelCol={{
-                          span: 8,
-                        }}
-                        wrapperCol={{
-                          span: 16,
-                        }}
-                        initialValues={{
-                          remember: true,
-                        }}
-                        onFinish={onLoginFinish}
-                        autoComplete="off"
-                      >
-                        <Form.Item
-                          label="Email"
-                          name="email"
-                          rules={[
-                            {
-                              required: true,
-                              message: 'Please enter your Email!',
-                              type: "email"
-                            },
-                          ]}
-                        >
-                          <Input />
-                        </Form.Item>
+                    name="basic"
+                    labelCol={{
+                      span: 8,
+                    }}
+                    wrapperCol={{
+                      span: 16,
+                    }}
+                    initialValues={{
+                      remember: true,
+                    }}
+                    onFinish={onLoginFinish}
+                    autoComplete="off"
+                  >
+                    <Form.Item
+                      label="Email"
+                      name="email"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please enter your Email!",
+                          type: "email",
+                        },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
 
-                        <Form.Item
-                          label="Password"
-                          name="password"
-                          rules={[
-                            {
-                              required: true,
-                              message: 'Please enter your password!',
-                            },
-                          ]}
-                        >
-                          <Input.Password />
-                        </Form.Item>
+                    <Form.Item
+                      label="Password"
+                      name="password"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please enter your password!",
+                        },
+                      ]}
+                    >
+                      <Input.Password />
+                    </Form.Item>
 
-                        <Form.Item
-                          wrapperCol={{
-                            offset: 8,
-                            span: 16,
-                          }}
-                        >
-                          <Button type="primary" htmlType="submit" disabled={loading}>
-                            Login
-                          </Button>
-                        </Form.Item>
-                      </Form>
+                    <Form.Item
+                      wrapperCol={{
+                        offset: 8,
+                        span: 16,
+                      }}
+                    >
+                      <Button type="primary" htmlType="submit">
+                        Login
+                      </Button>
+                    </Form.Item>
+                  </Form>
                 </TabPane>
                 <TabPane
                   tab={
@@ -121,70 +125,74 @@ const Login = () => {
                   key="2"
                 >
                   <Form
-                        name="basic"
-                        labelCol={{
-                          span: 8,
-                        }}
-                        wrapperCol={{
-                          span: 16,
-                        }}
-                        initialValues={{
-                          remember: true,
-                        }}
-                        onFinish={onSignUpFinish}
-                        autoComplete="off"
+                    name="basic"
+                    labelCol={{
+                      span: 8,
+                    }}
+                    wrapperCol={{
+                      span: 16,
+                    }}
+                    initialValues={{
+                      remember: true,
+                    }}
+                    onFinish={onSignUpFinish}
+                    autoComplete="off"
+                  >
+                    <Form.Item
+                      label="Full Name"
+                      name="name"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please enter your Name!",
+                        },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+
+                    <Form.Item
+                      label="Email"
+                      name="email"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please enter your Email!",
+                          type: "email",
+                        },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+
+                    <Form.Item
+                      label="Password"
+                      name="password"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please input your password!",
+                        },
+                      ]}
+                    >
+                      <Input.Password />
+                    </Form.Item>
+
+                    <Form.Item
+                      wrapperCol={{
+                        offset: 8,
+                        span: 16,
+                      }}
+                    >
+                      <Button
+                        type="primary"
+                        htmlType="submit"
+                        disabled={loading}
                       >
-                        <Form.Item
-                          label="Full Name"
-                          name="name"
-                          rules={[
-                            {
-                              required: true,
-                              message: 'Please enter your Name!',
-                            },
-                          ]}
-                        >
-                          <Input />
-                        </Form.Item>
-
-                        <Form.Item
-                          label="Email"
-                          name="email"
-                          rules={[
-                            {
-                              required: true,
-                              message: 'Please enter your Email!',
-                              type: "email"
-                            },
-                          ]}
-                        >
-                          <Input />
-                        </Form.Item>
-
-                        <Form.Item
-                          label="Password"
-                          name="password"
-                          rules={[
-                            {
-                              required: true,
-                              message: 'Please input your password!',
-                            },
-                          ]}
-                        >
-                          <Input.Password />
-                        </Form.Item>
-
-                        <Form.Item
-                          wrapperCol={{
-                            offset: 8,
-                            span: 16,
-                          }}
-                        >
-                          <Button type="primary" htmlType="submit" disabled={loading}>
-                            Sign Up
-                          </Button>
-                        </Form.Item>
-                      </Form>
+                        Sign Up
+                      </Button>
+                    </Form.Item>
+                  </Form>
                 </TabPane>
               </Tabs>
             </div>
@@ -192,7 +200,7 @@ const Login = () => {
         </Row>
       </Container>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

@@ -2,19 +2,42 @@
   margin: 0;
   padding: 0;
 }
+.makeStyles-container-9 {
+  max-width: initial !important;
+  padding: 0 !important;
+}
+
+.makeStyles-iconContainer-11 {
+  padding: 0 !important;
+  text-align: right !important;
+  display: flex !important;
+}
+
+.makeStyles-copyContainer-13 {
+  display: none !important;
+}
 a {
   color: #000;
   text-decoration: none;
-  transition: .3s ease-out;
+  transition: 0.3s ease-out;
 }
-.container-fluid , .container {
+.container-fluid,
+.container {
   padding-right: 0;
   padding-left: 0;
 }
-.slick-prev.slick-arrow, .slick-next.slick-arrow {
-  display:none !important;
+.slick-prev.slick-arrow,
+.slick-next.slick-arrow {
+  display: none !important;
 }
 .App {
   width: 100%;
+  overflow: hidden;
+}
+.wrapper {
+  margin-bottom: 75px;
+}
+.wrapper {
+  width: 100vw;
   overflow: hidden;
 }
