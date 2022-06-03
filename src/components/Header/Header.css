@@ -36,9 +36,9 @@
 }
 
 .site_search {
-  flex-basis: 80%;
+  flex-basis: 70%;
+  margin: 0% 5%;
 }
-
 .header_Area {
   border-bottom: 1px solid #eee;
   background-color: #fafafa;

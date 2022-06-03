@@ -1,16 +1,12 @@
-import { Upload } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { React, useContext, useEffect, useState } from "react";
-import { GrabPostDispatchContext } from "./postGrabContext";
-import { GrabPostContext } from "./postGrabContext";
+import { GrabPostDispatchContext } from "../../../Contexts/postGrabContext";
+import { GrabPostContext } from "../../../Contexts/postGrabContext";
 import { Form, Typography, Input } from "antd";
 const { Title } = Typography;
 const StepThree = () => {
   const setGrabDetails = useContext(GrabPostDispatchContext);
   const grabConfirmDetails = useContext(GrabPostContext);
-  const [fileList, setFileList] = useState([]);
-  const [images, setImages] = useState(grabConfirmDetails.images);
-  const [imagesPreview, setImagesPreview] = useState([]);
 
   const handleChange = (e) => {
     const files = Array.from(e.target.files);
@@ -20,29 +16,25 @@ const StepThree = () => {
 
       reader.onload = () => {
         if (reader.readyState === 2) {
-          setImagesPreview((old) => [...old, reader.result]);
-          setImages((old) => [...old, reader.result]);
+          setGrabDetails({
+            ...grabConfirmDetails,
+            images: [...grabConfirmDetails.images, reader.result],
+          });
         }
       };
 
       reader.readAsDataURL(file);
     });
-
-    if (images) {
-      console.log(images);
-      setGrabDetails({
-        ...grabConfirmDetails,
-        images: images,
-      });
-    }
   };
 
-  const uploadButton = (
-    <div>
-      <PlusOutlined />
-      <div style={{ marginTop: 8 }}>Upload</div>
-    </div>
-  );
+  useEffect(() => {
+    if (grabConfirmDetails.images.length > 0) {
+      setGrabDetails({ ...grabConfirmDetails, navEnabled: true });
+    } else {
+      setGrabDetails({ ...grabConfirmDetails, navEnabled: false });
+    }
+  }, [grabConfirmDetails.images.length]);
+
   return (
     <>
       <Title style={{ textAlign: "center" }} level={2}>

@@ -12,6 +12,7 @@ import { timeSince } from "./countPostTime";
 import { Container, Row, Col } from "react-bootstrap";
 import { Map, Marker } from "pigeon-maps";
 import Loading from "../../Loading/Loading";
+import { likesBy } from "../../../utils/likeList";
 import { Modal } from "antd";
 import "./SingleGrabPage.css";
 const { confirm } = Modal;
@@ -33,6 +34,7 @@ const SingleGrabPage = () => {
   const heartButton = useRef(null);
 
   const handleHeartClick = () => {
+    console.log(location);
     dispatch(likeAGrab(_id));
     if (hError) {
       alert.error(hError);
@@ -61,6 +63,7 @@ const SingleGrabPage = () => {
     _id,
     location,
     images,
+    type,
     address,
     phone,
     description,
@@ -106,10 +109,18 @@ const SingleGrabPage = () => {
             <Map
               provider={mapTiler}
               height={300}
-              defaultCenter={[0, 0]}
-              defaultZoom={14}
+              twoFingerDrag={false}
+              center={[location?.coordinates[1], location?.coordinates[0]]}
+              zoom={13}
+              mouseEvents={false}
+              touchEvents={false}
+              metaWheelZoom={true}
             >
-              <Marker color="black" width={40} anchor={[0, 0]} />
+              <Marker
+                color="black"
+                width={40}
+                anchor={[location?.coordinates[1], location?.coordinates[0]]}
+              />
             </Map>
           </div>
           <div className="info_container">
@@ -121,47 +132,58 @@ const SingleGrabPage = () => {
                   sm={{ span: 10, offset: 1 }}
                   xs={{ span: 10, offset: 1 }}
                 >
-                  <div className="info_container__header">
-                    <div className="title">{name}</div>
-                    <div className="info_container__header_controls">
-                      <div
-                        className="grabHearts"
-                        ref={heartButton}
-                        style={{
-                          color:
-                            heartedBy && heartedBy.includes(user?._id)
-                              ? "red"
-                              : "black",
-                        }}
-                      >
-                        <GiHearts onClick={handleHeartClick} />
-                      </div>
-                      <div className="claimGrab" onClick={handleClaimGrab}>
-                        <span>Claim!</span> <FaHandSparkles />
-                      </div>
-                      <div className="grabShare">
-                        <ShareSocial
-                          url={`${window.location.href}/grab/${_id}`}
-                          socialTypes={[
-                            "facebook",
-                            "twitter",
-                            "reddit",
-                            "linkedin",
-                          ]}
-                        >
-                          <FiShare />
-                        </ShareSocial>
+                  <div className="grab_info_container">
+                    <div className="info_container__header">
+                      <div className="title">
+                        {name} {type === "lost" ? `হারিয়ে` : `পাওয়া`} গিয়েছে{" "}
+                        {location?.address} এ
                       </div>
                     </div>
-                  </div>
+                    <div className="info_container__header">
+                      <div className="info_container__header_control">
+                        <div
+                          className="grabHearts"
+                          ref={heartButton}
+                          style={{
+                            color:
+                              heartedBy &&
+                              Boolean(heartedBy.find((l) => l._id === user._id))
+                                ? `red`
+                                : `black`,
+                          }}
+                        >
+                          <GiHearts onClick={handleHeartClick} />
+                        </div>
+                        <div className="likedByUsers">
+                          {likesBy(heartedBy || [])}
+                        </div>
+                        <div className="claimGrab" onClick={handleClaimGrab}>
+                          <span>Claim!</span> <FaHandSparkles />
+                        </div>
+                        <div className="grabShare">
+                          <ShareSocial
+                            url={`${window.location.href}/grab/${_id}`}
+                            socialTypes={[
+                              "facebook",
+                              "twitter",
+                              "reddit",
+                              "linkedin",
+                            ]}
+                          >
+                            <FiShare />
+                          </ShareSocial>
+                        </div>
+                      </div>
+                    </div>
 
-                  <div className="description">{description}</div>
-                  <div>{heartedBy && heartedBy.length} Hearts</div>
-                  <div className="postedTime">
-                    Posted {timeSince(new Date(createdAt))} Ago
+                    <div className="description">{description}</div>
+                    <div>{heartedBy && heartedBy.length} Hearts</div>
+                    <div className="postedTime">
+                      Posted {timeSince(new Date(createdAt))} Ago
+                    </div>
+                    <div className="category">{category}</div>
+                    <div className="where_I_got_location">{address}</div>
                   </div>
-                  <div className="category">{category}</div>
-                  <div className="where_I_got_location">{address}</div>
                 </Col>
               </Row>
             </Container>

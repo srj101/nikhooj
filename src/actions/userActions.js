@@ -24,6 +24,9 @@ import {
   RESET_PASSWORD_REQUEST,
   RESET_PASSWORD_SUCCESS,
   RESET_PASSWORD_FAIL,
+  LOAD_USER_POSTS_REQUEST,
+  LOAD_USER_POSTS_SUCCESS,
+  LOAD_USER_POSTS_FAIL,
 } from "../constants/userConstants";
 axios.defaults.withCredentials = true;
 // Login
@@ -86,6 +89,20 @@ export const loadUser = () => async (dispatch) => {
     dispatch({ type: LOAD_USER_SUCCESS, payload: data.user });
   } catch (error) {
     dispatch({ type: LOAD_USER_FAIL, payload: error.response.data.message });
+  }
+};
+
+// Load user posts
+export const loadUserPosts = () => async (dispatch) => {
+  try {
+    dispatch({ type: LOAD_USER_POSTS_REQUEST });
+    const { data } = await axios.post(`${BACKEND_URL}/api/v1/user/posts`);
+    dispatch({ type: LOAD_USER_POSTS_SUCCESS, payload: data.posts });
+  } catch (error) {
+    dispatch({
+      type: LOAD_USER_POSTS_FAIL,
+      payload: error.response.data.message,
+    });
   }
 };
 

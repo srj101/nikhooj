@@ -93,7 +93,7 @@ export const likeGrabReducer = (state = { hearted: null }, action) => {
   }
 };
 
-export const postGrabReducer = (state = { grab: {} }, action) => {
+export const postGrabReducer = (state = {}, action) => {
   switch (action.type) {
     case POST_GRAB_REQUEST:
       return {

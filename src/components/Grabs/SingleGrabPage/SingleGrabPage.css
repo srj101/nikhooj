@@ -5,18 +5,23 @@
   border-bottom: 1px solid #eee;
   padding: 0 10px;
   margin-bottom: 15px;
+  padding-bottom: 12px;
 }
 
 .info_container__header .title {
   flex-basis: 70%;
 }
 
-.info_container__header_controls {
+.info_container__header_control {
   display: flex;
   align-items: center;
-  flex-basis: 30%;
+  flex-basis: 100%;
+  justify-content: space-between;
 }
-
+.grab_info_container {
+  border: 1px solid #eee;
+  padding: 20px 15px;
+}
 .makeStyles-iconContainer-3 {
   display: flex;
 }

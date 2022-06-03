@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Form, Input } from "antd";
 import { Typography } from "antd";
-import { GrabPostDispatchContext } from "./postGrabContext";
-import { GrabPostContext } from "./postGrabContext";
+import { GrabPostDispatchContext } from "../../../Contexts/postGrabContext";
+import { GrabPostContext } from "../../../Contexts/postGrabContext";
 const { TextArea } = Input;
 const { Title } = Typography;
 
@@ -10,15 +10,16 @@ const StepTwo = () => {
   const setGrabDetails = useContext(GrabPostDispatchContext);
   const grabConfirmDetails = useContext(GrabPostContext);
 
-  const [description, setDescription] = useState("");
-
   useEffect(() => {
-    if (grabConfirmDetails.description.length > 0 && description.length < 250) {
+    if (
+      grabConfirmDetails.description.length > 0 &&
+      grabConfirmDetails.description.length < 250
+    ) {
       setGrabDetails({ ...grabConfirmDetails, navEnabled: true });
     } else {
       setGrabDetails({ ...grabConfirmDetails, navEnabled: false });
     }
-  }, [grabConfirmDetails.description.length]);
+  }, [grabConfirmDetails.description]);
 
   return (
     <div>
@@ -32,7 +33,6 @@ const StepTwo = () => {
               ...grabConfirmDetails,
               description: e.target.value,
             });
-            setDescription(e.target.value);
           }}
           rows={4}
           maxLength={250}

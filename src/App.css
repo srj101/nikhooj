@@ -41,3 +41,8 @@ a {
   width: 100vw;
   overflow: hidden;
 }
+form#postGrab {
+  margin: 30px 0;
+  margin-bottom: 40px;
+  padding: 0 30px;
+}

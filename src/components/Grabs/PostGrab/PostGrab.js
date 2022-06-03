@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Button, Form } from "antd";
+import { Form, Button } from "antd";
 import { Container, Row, Col } from "react-bootstrap";
 import Multistep from "react-multistep";
 import StepOne from "./StepOne";
@@ -8,19 +8,23 @@ import StepThree from "./StepThree";
 import StepFour from "./StepFour";
 import "./PostGrab.css";
 import ConfirmStep from "./ConfirmStep";
-import { GrabPostContext, GrabPostDispatchContext } from "./postGrabContext";
 import {
-  LoadingOutlined,
+  GrabPostContext,
+  GrabPostDispatchContext,
+} from "../../../Contexts/postGrabContext";
+import {
   SmileOutlined,
   SolutionOutlined,
   UserOutlined,
+  SettingOutlined,
 } from "@ant-design/icons";
-
+import Loading from "../../Loading/Loading";
 import { Steps } from "antd";
 import { postSingleGrab } from "../../../actions/grabActions";
 import { useDispatch, useSelector } from "react-redux";
 import { useAlert } from "react-alert";
 import { useNavigate } from "react-router-dom";
+import StepZero from "./StepZero";
 const { Step } = Steps;
 
 const PostGrab = () => {
@@ -31,6 +35,7 @@ const PostGrab = () => {
   const { grab, loading, error } = useSelector((state) => state.postedGrab);
   const dispatch = useDispatch();
   const steps = [
+    { name: "StepZero", component: <StepZero /> },
     { name: "StepOne", component: <StepOne /> },
     { name: "StepTwo", component: <StepTwo /> },
     { name: "StepThree", component: <StepThree /> },
@@ -38,37 +43,36 @@ const PostGrab = () => {
     { name: "StepFive", component: <ConfirmStep /> },
   ];
 
-  const [stepCount, setStepCount] = useState(0);
   const handleNextStep = () => {
-    if (stepCount < 4) {
-      setStepCount(stepCount + 1);
+    if (grabConfirmDetails.step < 5) {
+      setGrabDetails({
+        ...grabConfirmDetails,
+        step: grabConfirmDetails.step + 1,
+      });
     }
   };
 
   const handlePrevStep = () => {
-    if (stepCount > 0) {
-      setStepCount(stepCount - 1);
+    if (grabConfirmDetails.step > 0) {
+      setGrabDetails({
+        ...grabConfirmDetails,
+        step: grabConfirmDetails.step - 1,
+      });
     }
   };
 
   useEffect(() => {
-    setGrabDetails({ ...grabConfirmDetails, step: stepCount });
-  }, [stepCount]);
-
-  useEffect(() => {
-    if (error) {
+    if (error && loading === false) {
       alert.error(error);
     }
-  }, [dispatch, error]);
+  }, [error]);
 
   const handlePostGrab = () => {
     dispatch(postSingleGrab(grabConfirmDetails));
-    if (grab) {
-      alert.success("posted! Holy shitttt!");
-      if (!loading) {
-        navigate("/");
-      }
-    }
+
+    alert.success("Processing...");
+
+    navigate("/");
   };
 
   return (
@@ -81,76 +85,97 @@ const PostGrab = () => {
             sm={{ span: 10, offset: 1 }}
             xs={{ span: 10, offset: 1 }}
           >
-            <Steps
-              responsive={false}
-              direction="horizontal"
-              labelPlacement="horizontal"
-            >
-              <Step
-                status={
-                  grabConfirmDetails.step < 1
-                    ? `wait`
-                    : grabConfirmDetails.step === 0
-                    ? `process`
-                    : `finish`
-                }
-                title="Info"
-                icon={<UserOutlined />}
-              />
-
-              <Step
-                status={
-                  grabConfirmDetails.step < 3
-                    ? `wait`
-                    : grabConfirmDetails.step === 2
-                    ? `process`
-                    : `finish`
-                }
-                title="Location"
-                icon={<SolutionOutlined />}
-              />
-              <Step
-                status={
-                  grabConfirmDetails.step < 4
-                    ? `wait`
-                    : grabConfirmDetails.step === 4
-                    ? `process`
-                    : `finish`
-                }
-                title="Confirm!!!"
-                icon={<SmileOutlined />}
-              />
-            </Steps>
-            <Form name="postGrab" className="postAgrabForm">
-              <Multistep
-                activeStep={stepCount}
-                showNavigation={false}
-                steps={steps}
-              />
-            </Form>
-            {grabConfirmDetails.step === 4 ? (
-              <div className="nextPreviosButton">
-                <Button
-                  type="submit"
-                  disabled={loading}
-                  onClick={handlePostGrab}
-                >
-                  Post!
-                </Button>
-              </div>
+            {loading ? (
+              <Loading />
             ) : (
-              <div className="nextPreviosButton">
-                {grabConfirmDetails.step > 0 ? (
-                  <button onClick={handlePrevStep}>Prev</button>
-                ) : (
-                  <></>
-                )}
-                {grabConfirmDetails.navEnabled ? (
-                  <button onClick={handleNextStep}>Next</button>
-                ) : (
-                  <></>
-                )}
-              </div>
+              <>
+                <Steps
+                  responsive={false}
+                  direction="horizontal"
+                  labelPlacement="horizontal"
+                >
+                  <Step
+                    status={
+                      grabConfirmDetails.step < 1
+                        ? `wait`
+                        : grabConfirmDetails.step === 0
+                        ? `process`
+                        : `finish`
+                    }
+                    icon={<SettingOutlined />}
+                  />
+                  <Step
+                    status={
+                      grabConfirmDetails.step < 2
+                        ? `wait`
+                        : grabConfirmDetails.step === 1
+                        ? `process`
+                        : `finish`
+                    }
+                    icon={<UserOutlined />}
+                  />
+
+                  <Step
+                    status={
+                      grabConfirmDetails.step < 3
+                        ? `wait`
+                        : grabConfirmDetails.step === 2
+                        ? `process`
+                        : `finish`
+                    }
+                    icon={<SolutionOutlined />}
+                  />
+                  <Step
+                    status={
+                      grabConfirmDetails.step < 5
+                        ? `wait`
+                        : grabConfirmDetails.step === 5
+                        ? `process`
+                        : `finish`
+                    }
+                    icon={<SmileOutlined />}
+                  />
+                </Steps>
+                <Form name="postGrab" className="postAgrabForm">
+                  <Multistep
+                    activeStep={grabConfirmDetails.step}
+                    showNavigation={false}
+                    steps={steps}
+                  />
+                </Form>
+
+                <>
+                  {grabConfirmDetails.step === 5 ? (
+                    <div className="nextPreviosButton">
+                      {grabConfirmDetails.step > 1 ? (
+                        <button onClick={handlePrevStep}>Prev</button>
+                      ) : (
+                        <></>
+                      )}
+                      <Button
+                        type="submit"
+                        disabled={loading}
+                        onClick={handlePostGrab}
+                      >
+                        Post!
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="nextPreviosButton">
+                      {grabConfirmDetails.step > 1 ? (
+                        <button onClick={handlePrevStep}>Prev</button>
+                      ) : (
+                        <></>
+                      )}
+                      {grabConfirmDetails.navEnabled ? (
+                        <button onClick={handleNextStep}>Next</button>
+                      ) : (
+                        <></>
+                      )}
+                    </div>
+                  )}
+                </>
+              </>
             )}
           </Col>
         </Row>

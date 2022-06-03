@@ -24,7 +24,17 @@ form.postAgrabForm > div > ol > li::after {
 form#postGrab > div > ol {
   display: none !important;
 }
-form#postGrab {
-  margin: 30px 0;
-  margin-bottom: 40px;
+
+form#postGrab h2.ant-typography {
+  font-size: 20px;
+  margin-bottom: 30px;
+  text-transform: capitalize;
+  font-style: italic;
+  color: dimgrey;
+  font-weight: 100;
+}
+.ant-steps-item-container {
+  outline: none;
+  display: flex;
+  align-items: center;
 }

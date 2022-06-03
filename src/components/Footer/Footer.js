@@ -20,7 +20,7 @@ const Footer = () => {
               <Link to="/" className="nav_icon">
                 <FaHome />
               </Link>
-              <Link to={`/search/${`a`}`} className="nav_icon">
+              <Link to={`/search`} className="nav_icon">
                 <FaSearch />
               </Link>
               <Link to="/post" className="nav_icon">

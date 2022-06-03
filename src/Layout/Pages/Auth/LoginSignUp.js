@@ -7,6 +7,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login, register } from "../../../actions/userActions";
 import { useAlert } from "react-alert";
+import { GoogleLogin } from "@react-oauth/google";
+import jwt_decode from "jwt-decode";
 
 const { TabPane } = Tabs;
 const Login = () => {
@@ -41,6 +43,22 @@ const Login = () => {
     }
   }, [dispatch, error, alert, navigate, isAuthenticated, redirect]);
 
+  const googleLoginSuccess = (response) => {
+    const responsePayload = jwt_decode(response.credential);
+    dispatch(
+      register({
+        email: responsePayload.email,
+        type: "passwordless",
+        name: responsePayload.name,
+        dp: { url: responsePayload.picture },
+      })
+    );
+  };
+
+  const googleLoginFail = () => {
+    alert.error("Something went wrong!");
+  };
+
   return (
     <div className="loginSignUpArea">
       <Container>
@@ -62,10 +80,15 @@ const Login = () => {
                   }
                   key="1"
                 >
+                  <GoogleLogin
+                    onSuccess={googleLoginSuccess}
+                    onError={googleLoginFail}
+                  />
+                  <hr />
                   <Form
                     name="basic"
                     labelCol={{
-                      span: 8,
+                      span: 5,
                     }}
                     wrapperCol={{
                       span: 16,
@@ -75,6 +98,7 @@ const Login = () => {
                     }}
                     onFinish={onLoginFinish}
                     autoComplete="off"
+                    className="loginForm"
                   >
                     <Form.Item
                       label="Email"
@@ -124,6 +148,11 @@ const Login = () => {
                   }
                   key="2"
                 >
+                  <GoogleLogin
+                    onSuccess={googleLoginSuccess}
+                    onError={googleLoginFail}
+                  />
+                  <hr />
                   <Form
                     name="basic"
                     labelCol={{

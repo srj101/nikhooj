@@ -24,6 +24,9 @@ import {
   RESET_PASSWORD_REQUEST,
   RESET_PASSWORD_SUCCESS,
   RESET_PASSWORD_FAIL,
+  LOAD_USER_POSTS_REQUEST,
+  LOAD_USER_POSTS_SUCCESS,
+  LOAD_USER_POSTS_FAIL,
 } from "../constants/userConstants";
 
 export const userReducer = (state = { user: {} }, action) => {
@@ -110,6 +113,32 @@ export const profileReducer = (state = {}, action) => {
       return {
         ...state,
         isUpdated: false,
+      };
+
+    default:
+      return state;
+  }
+};
+
+// Load user profile posts
+export const userPostsReducer = (state = { posts: {} }, action) => {
+  switch (action.type) {
+    case LOAD_USER_POSTS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case LOAD_USER_POSTS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        posts: action.payload,
+      };
+
+    case LOAD_USER_POSTS_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
       };
 
     default:

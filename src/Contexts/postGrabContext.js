@@ -1,25 +1,21 @@
 import React, { createContext, useState } from "react";
 
-// Create two context:
-// UserContext: to query the context state
-// UserDispatchContext: to mutate the context state
 const GrabPostContext = createContext(undefined);
 const GrabPostDispatchContext = createContext(undefined);
 
-// A "provider" is used to encapsulate only the
-// components that needs the state in this context
 function GrabFormProvider({ children }) {
   const [grabDetails, setGrabDetails] = useState({
     name: "",
+    postType: undefined,
     category: [],
     description: "",
     images: [],
-    location: [],
-    error: [],
+    location: [23.8768944, 90.3179662],
     navEnabled: false,
     phone: "",
     address: "",
     step: 0,
+    errors: [],
   });
 
   return (

@@ -14,6 +14,7 @@ import { useAlert } from "react-alert";
 import Loading from "../../Loading/Loading";
 import { Map, Marker } from "pigeon-maps";
 import Report from "./Report";
+import { likesBy } from "../../../utils/likeList";
 const { confirm } = Modal;
 const MAPTILER_ACCESS_TOKEN = "8b2AzvDoDft3Fmi9Ur7D";
 const MAP_ID = "basic";
@@ -36,6 +37,7 @@ const Grab = ({ grab }) => {
     phone,
     location,
     category,
+    type,
     heartedBy,
   } = grab;
 
@@ -61,6 +63,10 @@ const Grab = ({ grab }) => {
       clearInterval(interval);
     };
   }, []);
+
+  const handleKnockGrab = () => {
+    console.log(`Knock knock! I've found it!`);
+  };
 
   const handleClaimGrab = () => {
     confirm({
@@ -108,7 +114,14 @@ const Grab = ({ grab }) => {
       <div className="grab__header">
         <Link to="/profile" className="userInfo">
           <div className="userProfileDP">
-            <img src="https://www.w3schools.com/howto/img_avatar.png" alt="" />
+            <img
+              src={
+                postedBy.dp.url
+                  ? postedBy.dp.url
+                  : `https://www.w3schools.com/howto/img_avatar.png`
+              }
+              alt="Profile Picture"
+            />
           </div>
           <div className="postedBy">
             <h4>{postedBy.name}</h4>
@@ -159,21 +172,33 @@ const Grab = ({ grab }) => {
               ref={heartBtn}
               style={{
                 color:
-                  heartedBy && heartedBy.includes(user._id) ? `red` : `black`,
+                  heartedBy &&
+                  Boolean(heartedBy.find((l) => l._id === user._id))
+                    ? `red`
+                    : `black`,
               }}
             >
               <GiHearts onClick={handleHeartClick} />
             </div>
           )}
+          <div className="likedByUsers">{likesBy(heartedBy || [])}</div>
         </div>
-        <div className="claimGrab" onClick={handleClaimGrab}>
-          <span>Claim!</span> <FaHandSparkles />
-        </div>
+        {type === "lost" ? (
+          <div className="knockGrab" onClick={handleKnockGrab}>
+            <span>Knock!</span> <FaHandSparkles />
+          </div>
+        ) : (
+          <div className="claimGrab" onClick={handleClaimGrab}>
+            <span>Claim!</span> <FaHandSparkles />
+          </div>
+        )}
       </div>
       <div className="grab__footer">
         <div className="grab_name">
           <b>
-            <em>{name}</em>
+            <em>
+              {type === "lost" ? `I have lost ${name}` : `I have found ${name}`}
+            </em>
           </b>
         </div>
         <div className="grab_address">

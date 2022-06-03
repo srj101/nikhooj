@@ -1,16 +1,23 @@
 import React, { useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Input } from "antd";
-import { FaHome, FaRegCompass, FaRegUser } from "react-icons/fa";
+import { FaHome, FaSearchLocation, FaRegUser } from "react-icons/fa";
 import logo from "./logo.png";
 import "./Header.css";
 import MetaData from "../../Layout/MetaData";
+import { getAllGrabs } from "../../actions/grabActions";
+import { useDispatch, useSelector } from "react-redux";
+import { LogoutOutlined } from "@ant-design/icons";
+import { logout } from "../../actions/userActions";
+import { googleLogout } from "@react-oauth/google";
 const { Search } = Input;
 
 const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const isSearchPage = location.pathname.includes("search");
+  const dispatch = useDispatch();
+  const isSearchPage = location.pathname === "/search";
+  const { isAuthenticated } = useSelector((state) => state.user);
 
   useEffect(() => {
     window.scrollTo({
@@ -18,6 +25,19 @@ const Header = () => {
       behavior: "smooth",
     });
   }, [isSearchPage]);
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+    dispatch(logout());
+    googleLogout();
+    alert.success("Logout Successfully");
+  };
+
+  useEffect(() => {
+    if (isAuthenticated === false) {
+      navigate("/login");
+    }
+  }, [isAuthenticated, navigate]);
 
   return (
     <div className="header_Area">
@@ -39,7 +59,7 @@ const Header = () => {
           <Search
             placeholder="Search Here"
             allowClear
-            onSearch={(value) => navigate(`/search/${value}`)}
+            onSearch={(value) => dispatch(getAllGrabs(value, 1, ""))}
           />
         </div>
         {/*-----------Home,Messege,CreateNewPost,Notification,Profile-----------*/}
@@ -50,13 +70,18 @@ const Header = () => {
             </Link>
           </div>
           <div className="nav_icon">
-            <Link to="/">
-              <FaRegCompass />
+            <Link to="/advanced_search">
+              <FaSearchLocation />
             </Link>
           </div>
           <div className="nav_icon">
             <Link to="/login">
               <FaRegUser />
+            </Link>
+          </div>
+          <div className="nav_icon">
+            <Link to="/" onClick={handleLogout}>
+              <LogoutOutlined />
             </Link>
           </div>
         </div>

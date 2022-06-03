@@ -1,0 +1,36 @@
+.user_bio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 30px;
+  padding: 15px 0;
+}
+.userPost img {
+  height: 267px;
+  object-fit: contain;
+}
+.userName {
+  font-weight: 700;
+  margin-top: 10px;
+}
+
+.userEmail {
+  font-size: 10px;
+  font-style: italic;
+}
+
+.userLevel {
+  font-size: 9px;
+  font-weight: 700;
+  background: #000;
+  color: #fff;
+  padding: 2px 7px;
+  margin-top: 7px;
+}
+
+.user_dp {
+  border: 4px solid #ccc;
+  border-radius: 50%;
+}

@@ -59,7 +59,7 @@ const Grabcontainer = () => {
                 {grabs.map((grab,i) => <Grab key={i} grab={grab}/>)}
               </InfiniteScroll> */}
             {loading ? (
-              <Loading />
+              <Loading content="latest posts near your location..." />
             ) : (
               grabs.map((grab, i) => <Grab key={i} grab={grab} />)
             )}

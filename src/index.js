@@ -10,7 +10,11 @@ import store from "./store";
 import { positions, transitions, Provider as AlertProvider } from "react-alert";
 import AlertTemplate from "react-alert-template-basic";
 import reportWebVitals from "./reportWebVitals";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import { PersistGate } from "redux-persist/integration/react";
+import { persistStore } from "redux-persist";
 
+let persistor = persistStore(store);
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const options = {
   timeout: 5000,
@@ -18,13 +22,17 @@ const options = {
   transition: transitions.SCALE,
 };
 root.render(
-  <Provider store={store}>
-    <AlertProvider template={AlertTemplate} {...options}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </AlertProvider>
-  </Provider>
+  <GoogleOAuthProvider clientId="893641174569-slpat0hj55rtslqnichn690khrr2oogl.apps.googleusercontent.com">
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <AlertProvider template={AlertTemplate} {...options}>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </AlertProvider>
+      </PersistGate>
+    </Provider>
+  </GoogleOAuthProvider>
 );
 
 reportWebVitals();
