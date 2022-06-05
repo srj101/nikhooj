@@ -61,7 +61,17 @@ const Grabcontainer = () => {
             {loading ? (
               <Loading content="latest posts near your location..." />
             ) : (
-              grabs.map((grab, i) => <Grab key={i} grab={grab} />)
+              <>
+                {grabs.length > 0 ? (
+                  <>
+                    {grabs.map((grab, i) => (
+                      <Grab key={i} grab={grab} />
+                    ))}
+                  </>
+                ) : (
+                  <Loading content="Nothing Found, try something else..." />
+                )}
+              </>
             )}
 
             {resultPerPage < count ? (

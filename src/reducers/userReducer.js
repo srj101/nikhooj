@@ -27,6 +27,9 @@ import {
   LOAD_USER_POSTS_REQUEST,
   LOAD_USER_POSTS_SUCCESS,
   LOAD_USER_POSTS_FAIL,
+  LOAD_OTHER_USER_REQUEST,
+  LOAD_OTHER_USER_SUCCESS,
+  LOAD_OTHER_USER_FAIL,
 } from "../constants/userConstants";
 
 export const userReducer = (state = { user: {} }, action) => {
@@ -113,6 +116,37 @@ export const profileReducer = (state = {}, action) => {
       return {
         ...state,
         isUpdated: false,
+      };
+
+    default:
+      return state;
+  }
+};
+
+// Load other users profile
+export const otherUserProfileReducer = (
+  state = { user: {}, posts: [] },
+  action
+) => {
+  switch (action.type) {
+    case LOAD_OTHER_USER_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case LOAD_OTHER_USER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        user: action.payload.profile,
+        posts: action.payload.posts,
+      };
+
+    case LOAD_OTHER_USER_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
       };
 
     default:

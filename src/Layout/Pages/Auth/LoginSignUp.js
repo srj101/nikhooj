@@ -31,7 +31,7 @@ const Login = () => {
     dispatch(register({ email, password, name }));
   };
 
-  const redirect = location.search ? location.search.split("=")[1] : "/profile";
+  const redirect = location.search ? location.search.split("=")[1] : "/";
 
   useEffect(() => {
     if (error) {

@@ -2,35 +2,31 @@ import React, { Fragment, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import MetaData from "../../MetaData";
 import Loading from "../../../components/Loading/Loading";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "./Profile.css";
 import { Container, Row, Col } from "react-bootstrap";
 import { useAlert } from "react-alert";
-import { PageHeader, Card } from "antd";
-import { loadUserPosts } from "../../../actions/userActions";
+import { PageHeader } from "antd";
+import { loadOtherUserProfile } from "../../../actions/userActions";
 import Post from "./Post";
 import UserBio from "./UserBio";
 
-const ProfilePage = () => {
+const OthersProfilePage = () => {
+  const { id } = useParams();
   const dispatch = useDispatch();
   const alert = useAlert();
   const navigate = useNavigate();
-  const location = useLocation();
-  const { user, loading, isAuthenticated } = useSelector((state) => state.user);
-  const {
-    posts,
-    error,
-    loading: postsLoading,
-  } = useSelector((state) => state.userPosts);
+  const { user, posts, error, loading } = useSelector(
+    (state) => state.someOneProfile
+  );
 
   useEffect(() => {
     if (error) {
       alert.error(error);
     }
-    if (user) {
-      dispatch(loadUserPosts());
-    }
-  }, [error, alert, dispatch, user]);
+
+    dispatch(loadOtherUserProfile(id));
+  }, [error, alert, dispatch, id]);
 
   return (
     <Fragment>
@@ -38,7 +34,7 @@ const ProfilePage = () => {
         <Loading />
       ) : (
         <Fragment>
-          <MetaData title={`${user.name}'s Profile`} />
+          <MetaData title={`${user?.name}'s Profile`} />
           <div className="profileContainer">
             <Container>
               <Row>
@@ -58,7 +54,7 @@ const ProfilePage = () => {
                     <UserBio user={user} />
                     <div className="userPosts">
                       <Row>
-                        {postsLoading ? (
+                        {loading ? (
                           <Loading />
                         ) : (
                           <>
@@ -82,4 +78,4 @@ const ProfilePage = () => {
   );
 };
 
-export default ProfilePage;
+export default OthersProfilePage;

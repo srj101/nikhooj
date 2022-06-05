@@ -2,23 +2,25 @@ import React, { useEffect, useRef, useState } from "react";
 import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { GiHearts } from "react-icons/gi";
 import { ShareSocial } from "react-share-social";
 import { FaHandSparkles } from "react-icons/fa";
 import { FiShare } from "react-icons/fi";
+import MetaData from "../../../Layout/MetaData";
 import { getSingleGrab, likeAGrab } from "../../../actions/grabActions";
 import { timeSince } from "./countPostTime";
 import { Container, Row, Col } from "react-bootstrap";
 import { Map, Marker } from "pigeon-maps";
 import Loading from "../../Loading/Loading";
 import { likesBy } from "../../../utils/likeList";
-import { Modal } from "antd";
+import { Modal, PageHeader } from "antd";
 import "./SingleGrabPage.css";
 const { confirm } = Modal;
 const MAPTILER_ACCESS_TOKEN = "8b2AzvDoDft3Fmi9Ur7D";
 const MAP_ID = "basic";
 const SingleGrabPage = () => {
+  const navigate = useNavigate();
   const mapTiler = (x, y, z, dpr) => {
     return `https://api.maptiler.com/maps/${MAP_ID}/256/${z}/${x}/${y}${
       dpr >= 2 ? "@2x" : ""
@@ -104,6 +106,7 @@ const SingleGrabPage = () => {
         <Loading />
       ) : (
         <div className="SingleGrabPage_container">
+          <MetaData description={description} title={`${name}'s Details`} />
           <div className="map">
             {/** wah keya seen hae */}
             <Map
@@ -116,6 +119,23 @@ const SingleGrabPage = () => {
               touchEvents={false}
               metaWheelZoom={true}
             >
+              <Container>
+                <Row>
+                  <Col
+                    lg={{ span: 6, offset: 3 }}
+                    md={{ span: 8, offset: 2 }}
+                    sm={{ span: 10, offset: 1 }}
+                    xs={{ span: 10, offset: 1 }}
+                  >
+                    <PageHeader
+                      className="site-page-header-responsive"
+                      onBack={() => navigate(-1)}
+                      title={name}
+                      subTitle={`${name}'s details`}
+                    />
+                  </Col>
+                </Row>
+              </Container>
               <Marker
                 color="black"
                 width={40}

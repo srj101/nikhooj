@@ -11,14 +11,21 @@ import NotFound from "./components/404/404";
 import SingleGrabPage from "./components/Grabs/SingleGrabPage/SingleGrabPage";
 import Login from "./Layout/Pages/Auth/LoginSignUp";
 import ProfilePage from "./Layout/Pages/Auth/ProfilePage";
+import { notification } from "antd";
 import store from "./store";
 import { loadUser } from "./actions/userActions";
 import ProtectedRoute from "./Layout/Pages/Auth/ProtectedRoute";
 import { GrabFormProvider } from "./Contexts/postGrabContext";
 import { Scrollbar } from "smooth-scrollbar-react";
 import AdvancedSearch from "./components/Search/AdvancedSearch";
+import OthersProfilePage from "./Layout/Pages/Auth/OthersProfilePage";
+import { useAlert } from "react-alert";
+import Pusher from "pusher-js";
+import { useSelector } from "react-redux";
 
 function App() {
+  const { user } = useSelector((state) => state.user);
+  const alert = useAlert();
   useEffect(() => {
     store.dispatch(loadUser());
     WebFont.load({
@@ -27,6 +34,34 @@ function App() {
       },
     });
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      const pusher = new Pusher(`6bcc5fef9ff3584f57b1`, {
+        cluster: "ap1",
+      });
+      const channel = pusher.subscribe(user?._id.toString());
+
+      channel.bind("claim", function (data) {
+        notification["success"]({
+          message: data.notification,
+          description: data.notification,
+        });
+        console.log(data);
+      });
+      channel.bind("knock", function (data) {
+        notification["success"]({
+          message: data.notification,
+          description: data.notification,
+        });
+        console.log(data);
+      });
+
+      return () => {
+        pusher.unsubscribe(user?._id.toString());
+      };
+    }
+  }, [user]);
 
   return (
     <div className="App">
@@ -98,6 +133,22 @@ function App() {
                 <Header />
                 <div className="wrapper">
                   <ProfilePage />
+                </div>
+                <Footer />
+              </>
+            }
+          ></Route>
+        </Route>
+
+        <Route exact path="/profile/:id" element={<ProtectedRoute />}>
+          <Route
+            exact
+            path="/profile/:id"
+            element={
+              <>
+                <Header />
+                <div className="wrapper">
+                  <OthersProfilePage />
                 </div>
                 <Footer />
               </>

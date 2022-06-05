@@ -11,6 +11,12 @@ import {
   POST_GRAB_REQUEST,
   POST_GRAB_SUCCESS,
   POST_GRAB_FAIL,
+  REPORT_GRAB_REQUEST,
+  REPORT_GRAB_SUCCESS,
+  REPORT_GRAB_FAIL,
+  CLAIM_GRAB_REQUEST,
+  CLAIM_GRAB_SUCCESS,
+  CLAIM_GRAB_FAIL,
 } from "../constants/grabConstants";
 
 export const grabReducer = (state = { grabs: [] }, action) => {
@@ -68,23 +74,26 @@ export const singleGrabReducer = (state = { grab: {} }, action) => {
   }
 };
 
-export const likeGrabReducer = (state = { hearted: null }, action) => {
+export const likeGrabReducer = (state = {}, action) => {
   switch (action.type) {
     case LIKE_REQUEST:
+    case REPORT_GRAB_REQUEST:
+    case CLAIM_GRAB_REQUEST:
       return {
         loading: true,
         ...state,
       };
     case LIKE_SUCCESS:
+    case REPORT_GRAB_SUCCESS:
+    case CLAIM_GRAB_SUCCESS:
       return {
         loading: false,
-        hearted: action.payload.hearted,
-        heartedByUpdate: action.payload.heartedBy,
       };
     case LIKE_FAIL:
+    case REPORT_GRAB_FAIL:
+    case CLAIM_GRAB_FAIL:
       return {
         loading: false,
-        hearted: false,
         error: action.payload,
       };
 

@@ -13,6 +13,12 @@ import {
   POST_GRAB_REQUEST,
   POST_GRAB_SUCCESS,
   POST_GRAB_FAIL,
+  REPORT_GRAB_REQUEST,
+  REPORT_GRAB_SUCCESS,
+  REPORT_GRAB_FAIL,
+  CLAIM_GRAB_REQUEST,
+  CLAIM_GRAB_SUCCESS,
+  CLAIM_GRAB_FAIL,
 } from "../constants/grabConstants";
 axios.defaults.maxBodyLength = "infinity";
 axios.defaults.maxContentLength = "infinity";
@@ -56,6 +62,32 @@ export const likeAGrab = (id) => async (dispatch) => {
     dispatch({ type: LIKE_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: LIKE_FAIL, payload: error.response.data.message });
+  }
+};
+
+// Report spam, nudity , vulgar etc
+export const reportAGrab = (Data) => async (dispatch) => {
+  try {
+    dispatch({ type: REPORT_GRAB_REQUEST });
+    const { data } = await axios.post(`${BACKEND_URL}/api/v1/report/new`, {
+      ...Data,
+    });
+    dispatch({ type: REPORT_GRAB_SUCCESS, payload: data.report });
+  } catch (error) {
+    dispatch({ type: REPORT_GRAB_FAIL, payload: error.response.data.message });
+  }
+};
+
+// Claim a grab
+export const claimAGrab = (Data) => async (dispatch) => {
+  try {
+    dispatch({ type: CLAIM_GRAB_REQUEST });
+    const { data } = await axios.post(`${BACKEND_URL}/api/v1/claim/new`, {
+      ...Data,
+    });
+    dispatch({ type: CLAIM_GRAB_SUCCESS, payload: data.claim });
+  } catch (error) {
+    dispatch({ type: CLAIM_GRAB_FAIL, payload: error.response.data.message });
   }
 };
 

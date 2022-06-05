@@ -6,10 +6,14 @@ import { GiHearts } from "react-icons/gi";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { FaHandSparkles, FaHandMiddleFinger } from "react-icons/fa";
 import { GoLocation } from "react-icons/go";
-import { Modal, Tag } from "antd";
+import { Modal, Tag, Radio, Space } from "antd";
 import { timeSince } from "../SingleGrabPage/countPostTime";
 import { useDispatch, useSelector } from "react-redux";
-import { likeAGrab } from "../../../actions/grabActions";
+import {
+  claimAGrab,
+  likeAGrab,
+  reportAGrab,
+} from "../../../actions/grabActions";
 import { useAlert } from "react-alert";
 import Loading from "../../Loading/Loading";
 import { Map, Marker } from "pigeon-maps";
@@ -20,7 +24,9 @@ const MAPTILER_ACCESS_TOKEN = "8b2AzvDoDft3Fmi9Ur7D";
 const MAP_ID = "basic";
 
 const Grab = ({ grab }) => {
+  const [visible, setVisible] = useState(false);
   const dispatch = useDispatch();
+  const alert = useAlert();
   const mapTiler = (x, y, z, dpr) => {
     return `https://api.maptiler.com/maps/${MAP_ID}/256/${z}/${x}/${y}${
       dpr >= 2 ? "@2x" : ""
@@ -31,7 +37,6 @@ const Grab = ({ grab }) => {
     _id,
     images,
     name,
-    address,
     postedBy,
     createdAt,
     phone,
@@ -46,6 +51,15 @@ const Grab = ({ grab }) => {
   // location.coordinates[1] = swapper;
 
   const { user, loading: userLoading } = useSelector((state) => state.user);
+  const { error: heartError, loading: heartLoading } = useSelector(
+    (state) => state.hearts
+  );
+
+  useEffect(() => {
+    if (heartError) {
+      alert.error(heartError);
+    }
+  }, [heartError, alert, dispatch]);
 
   const settings = {
     dots: false,
@@ -65,7 +79,30 @@ const Grab = ({ grab }) => {
   }, []);
 
   const handleKnockGrab = () => {
-    console.log(`Knock knock! I've found it!`);
+    confirm({
+      title: "Contact",
+      icon: <ExclamationCircleOutlined />,
+      content: phone,
+
+      onOk() {
+        dispatch(
+          claimAGrab({
+            comment:
+              type && type === "lost"
+                ? `${user && user.name} knocks`
+                : `${user && user.name} claims ${name && name}`,
+            type: type && type === "lost" ? `knock` : `claim`,
+            grab_id: _id && _id,
+            user_id: user && user._id,
+          })
+        );
+        if (heartLoading === false && !heartError) {
+          alert.success(`User will be notified!`);
+        }
+      },
+
+      onCancel() {},
+    });
   };
 
   const handleClaimGrab = () => {
@@ -75,9 +112,20 @@ const Grab = ({ grab }) => {
       content: phone,
 
       onOk() {
-        return new Promise((resolve, reject) => {
-          setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
-        }).catch(() => console.log("Oops errors!"));
+        dispatch(
+          claimAGrab({
+            comment:
+              type && type === "lost"
+                ? `${user && user.name} knocks`
+                : `${user && user.name} claims ${name && name}`,
+            type: type && type === "lost" ? `knock` : `claim`,
+            grab_id: _id && _id,
+            user_id: user && user._id,
+          })
+        );
+        if (heartLoading === false && !heartError) {
+          alert.success(`Claim request sent!`);
+        }
       },
 
       onCancel() {},
@@ -93,26 +141,39 @@ const Grab = ({ grab }) => {
     }
   };
 
-  const handleReportClick = () => {
-    confirm({
-      title: "Do you want to Report?",
-      icon: <ExclamationCircleOutlined />,
-      content: <Report />,
+  const showModal = () => {
+    setVisible(true);
+  };
 
-      onOk() {
-        return new Promise((resolve, reject) => {
-          setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
-        }).catch(() => console.log("Oops errors!"));
-      },
+  const hideModal = () => {
+    setVisible(false);
+  };
 
-      onCancel() {},
-    });
+  const submitReport = () => {
+    dispatch(
+      reportAGrab({
+        name: "Grab Report",
+        comment: value,
+        grab_id: _id && _id,
+        user_id: user && user._id,
+      })
+    );
+
+    setVisible(false);
+    if (heartLoading === false && !heartError) {
+      alert.success(`Reported!`);
+    }
+  };
+
+  const [value, setValue] = useState("Innaprropriate");
+  const onChange = (e) => {
+    setValue(e.target.value);
   };
 
   return (
     <div className="Grab">
       <div className="grab__header">
-        <Link to="/profile" className="userInfo">
+        <Link to={`/profile/${postedBy._id}`} className="userInfo">
           <div className="userProfileDP">
             <img
               src={
@@ -128,7 +189,30 @@ const Grab = ({ grab }) => {
           </div>
         </Link>
         <div className="grabMenu">
-          <p onClick={handleReportClick}>...</p>
+          {heartLoading ? (
+            `w...`
+          ) : (
+            <>
+              <p onClick={showModal}>...</p>
+              <Modal
+                title="Modal"
+                visible={visible}
+                onOk={submitReport}
+                okText="Report"
+                cancelText="Cancel"
+                onCancel={hideModal}
+              >
+                <Radio.Group onChange={onChange} value={value}>
+                  <Space direction="vertical">
+                    <Radio value={`Innaprropriate`}>Innaprropriate</Radio>
+                    <Radio value={`Spam`}>Spam</Radio>
+                    <Radio value={`Nudity`}>Nudity</Radio>
+                    <Radio value={`Something Else`}>Something Else...</Radio>
+                  </Space>
+                </Radio.Group>
+              </Modal>
+            </>
+          )}
         </div>
       </div>
       {images.length > 0 ? (
@@ -203,7 +287,7 @@ const Grab = ({ grab }) => {
         </div>
         <div className="grab_address">
           <GoLocation />
-          <span>{address}</span>
+          <span>{location.address}</span>
         </div>
         <div className="grab_categories">
           {category.map((cat) => (

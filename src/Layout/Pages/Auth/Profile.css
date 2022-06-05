@@ -11,12 +11,16 @@
   height: 267px;
   object-fit: contain;
 }
-.userName {
+.userName,
+.joinDate span {
   font-weight: 700;
+}
+.userName {
   margin-top: 10px;
 }
 
-.userEmail {
+.userEmail,
+.joinDate {
   font-size: 10px;
   font-style: italic;
 }

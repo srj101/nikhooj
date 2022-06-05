@@ -59,7 +59,9 @@ const Header = () => {
           <Search
             placeholder="Search Here"
             allowClear
-            onSearch={(value) => dispatch(getAllGrabs(value, 1, ""))}
+            onSearch={(value) =>
+              dispatch(getAllGrabs(value.target.value, 1, ""))
+            }
           />
         </div>
         {/*-----------Home,Messege,CreateNewPost,Notification,Profile-----------*/}
@@ -75,7 +77,7 @@ const Header = () => {
             </Link>
           </div>
           <div className="nav_icon">
-            <Link to="/login">
+            <Link to="/profile">
               <FaRegUser />
             </Link>
           </div>

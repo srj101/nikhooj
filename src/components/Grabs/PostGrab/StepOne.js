@@ -56,7 +56,7 @@ const StepOne = () => {
             setName(e.target.value);
             setGrabDetails({ ...grabConfirmDetails, name: e.target.value });
           }}
-          placeholder="Name"
+          placeholder="Ex. Moneybag"
         />
       </Form.Item>
       <Form.Item
@@ -72,7 +72,7 @@ const StepOne = () => {
           mode="tags"
           showArrow
           onChange={handleSelectChange}
-          placeholder="Select Relevant Category"
+          placeholder="Ex. Luggage &amp; Bags"
         >
           {categories.map((cat, idx) => (
             <Option value={cat} key={idx}>

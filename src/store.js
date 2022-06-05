@@ -12,6 +12,7 @@ import {
 } from "./reducers/grabReducer";
 import {
   forgotPasswordReducer,
+  otherUserProfileReducer,
   profileReducer,
   userPostsReducer,
   userReducer,
@@ -26,6 +27,7 @@ const reducer = combineReducers({
   hearts: likeGrabReducer,
   postedGrab: postGrabReducer,
   userPosts: userPostsReducer,
+  someOneProfile: otherUserProfileReducer,
 });
 
 const persistConfig = {

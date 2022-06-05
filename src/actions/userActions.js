@@ -27,6 +27,9 @@ import {
   LOAD_USER_POSTS_REQUEST,
   LOAD_USER_POSTS_SUCCESS,
   LOAD_USER_POSTS_FAIL,
+  LOAD_OTHER_USER_REQUEST,
+  LOAD_OTHER_USER_SUCCESS,
+  LOAD_OTHER_USER_FAIL,
 } from "../constants/userConstants";
 axios.defaults.withCredentials = true;
 // Login
@@ -89,6 +92,22 @@ export const loadUser = () => async (dispatch) => {
     dispatch({ type: LOAD_USER_SUCCESS, payload: data.user });
   } catch (error) {
     dispatch({ type: LOAD_USER_FAIL, payload: error.response.data.message });
+  }
+};
+
+// Load other user profile
+export const loadOtherUserProfile = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: LOAD_OTHER_USER_REQUEST });
+    const { data } = await axios.get(
+      `${BACKEND_URL}/api/v1/user/profile/${id}`
+    );
+    dispatch({ type: LOAD_OTHER_USER_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: LOAD_OTHER_USER_FAIL,
+      payload: error.response.data.message,
+    });
   }
 };
 
