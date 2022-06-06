@@ -172,19 +172,21 @@ function App() {
             }
           ></Route>
         </Route>
-        <Route
-          exact
-          path="/grab/:id"
-          element={
-            <>
-              <Header />
-              <div className="wrapper">
-                <SingleGrabPage />
-              </div>
-              <Footer />
-            </>
-          }
-        ></Route>
+        <Route exact path="/grab/:id" element={<ProtectedRoute />}>
+          <Route
+            exact
+            path="/grab/:id"
+            element={
+              <>
+                <Header />
+                <div className="wrapper">
+                  <SingleGrabPage />
+                </div>
+                <Footer />
+              </>
+            }
+          ></Route>
+        </Route>
 
         <Route exact path="/login" element={<Login />}></Route>
 

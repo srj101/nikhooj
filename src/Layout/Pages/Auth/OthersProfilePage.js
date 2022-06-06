@@ -21,12 +21,8 @@ const OthersProfilePage = () => {
   );
 
   useEffect(() => {
-    if (error) {
-      alert.error(error);
-    }
-
     dispatch(loadOtherUserProfile(id));
-  }, [error, alert, dispatch, id]);
+  }, [dispatch, id]);
 
   return (
     <Fragment>

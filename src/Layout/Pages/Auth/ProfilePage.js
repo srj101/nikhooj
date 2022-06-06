@@ -24,13 +24,10 @@ const ProfilePage = () => {
   } = useSelector((state) => state.userPosts);
 
   useEffect(() => {
-    if (error) {
-      alert.error(error);
-    }
     if (user) {
       dispatch(loadUserPosts());
     }
-  }, [error, alert, dispatch, user]);
+  }, [dispatch, user]);
 
   return (
     <Fragment>
