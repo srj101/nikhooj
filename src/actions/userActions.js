@@ -52,7 +52,13 @@ export const login = (email, password) => async (dispatch) => {
 
     dispatch({ type: LOGIN_SUCCESS, payload: data.user });
   } catch (error) {
-    dispatch({ type: LOGIN_FAIL, payload: error.response.data.message });
+    console.log(error);
+    let message =
+      typeof error.response.data.message == "undefined"
+        ? error.message
+        : error.response.data.message;
+    console.log(message);
+    dispatch({ type: LOGIN_FAIL, payload: message });
   }
 };
 

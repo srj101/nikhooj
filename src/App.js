@@ -1,5 +1,5 @@
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import Grabcontainer from "./components/Grabs/grabcontainer";
@@ -24,8 +24,9 @@ import Pusher from "pusher-js";
 import { useSelector } from "react-redux";
 
 function App() {
-  const { user } = useSelector((state) => state.user);
+  const { user, loading, isAuthenticated } = useSelector((state) => state.user);
   const alert = useAlert();
+  const navigate = useNavigate();
   useEffect(() => {
     store.dispatch(loadUser());
     WebFont.load({
@@ -47,14 +48,12 @@ function App() {
           message: data.notification,
           description: data.notification,
         });
-        console.log(data);
       });
       channel.bind("knock", function (data) {
         notification["success"]({
           message: data.notification,
           description: data.notification,
         });
-        console.log(data);
       });
 
       return () => {

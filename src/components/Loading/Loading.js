@@ -5,7 +5,7 @@ import "./loading.css";
 const Loading = ({ content }) => {
   return (
     <div className="loading-spinner">
-      <LoadingOutlined style={{ fontSize: 24 }} spin />
+      {content ? <></> : <LoadingOutlined style={{ fontSize: 24 }} spin />}
       <div>{content && content}</div>
     </div>
   );

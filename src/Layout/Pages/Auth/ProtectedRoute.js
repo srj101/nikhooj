@@ -7,7 +7,7 @@ const ProtectedRoute = ({ isAdmin, component: Component, ...rest }) => {
   const location = useLocation();
   const { loading, isAuthenticated, user } = useSelector((state) => state.user);
   useEffect(() => {
-    if (isAuthenticated === false) {
+    if (isAuthenticated === false && loading === false) {
       navigate("/login");
     }
   }, [location, isAuthenticated]);

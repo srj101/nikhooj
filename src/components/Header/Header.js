@@ -10,11 +10,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { LogoutOutlined } from "@ant-design/icons";
 import { logout } from "../../actions/userActions";
 import { googleLogout } from "@react-oauth/google";
+import { useAlert } from "react-alert";
 const { Search } = Input;
 
 const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const alert = useAlert();
   const dispatch = useDispatch();
   const isSearchPage = location.pathname === "/search";
   const { isAuthenticated } = useSelector((state) => state.user);

@@ -23,3 +23,6 @@ export const categories = [
   "Toys & Games",
   "Vehicles & Parts",
 ];
+export const OAuthClientID =
+  "893641174569-u22tblo13tb9p250h3i0rt3vbm130c0b.apps.googleusercontent.com";
+export const oAuthClientSecret = "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";

@@ -59,10 +59,12 @@ const ProfilePage = () => {
                     <div className="userPosts">
                       <Row>
                         {postsLoading ? (
-                          <Loading />
+                          <Col xs={12} sm={12} lg={6} md={6}>
+                            <Loading />
+                          </Col>
                         ) : (
                           <>
-                            {posts.length > 0
+                            {posts?.length > 0
                               ? posts.map((post, idx) => (
                                   <Post idx={idx} post={post} />
                                 ))
